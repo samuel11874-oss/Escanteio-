@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bet · Escanteio</title>
+  <!-- Font & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 20% 30%, #0a0f1e, #03060b);
+      padding: 20px;
+    }
+
+    /* Container futurista com brilho neon */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(12, 22, 35, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 48px;
+      padding: 28px 24px 34px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 255, 0.15), 0 0 30px rgba(0, 180, 255, 0.3);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(0, 255, 255, 0.3), 0 0 50px #00a6ff55;
+    }
+
+    /* Título com gradiente e brilho */
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #a0f0ff, #4a7dff, #b47aff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px #0088ff80, 0 0 60px #4a7dff40;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    h2 i {
+      font-size: 2rem;
+      color: #00d4ff;
+      filter: drop-shadow(0 0 12px #00a6ff);
+    }
+
+    /* Grid de inputs com design cyber */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 12px;
+      margin-bottom: 8px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .input-group label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      color: #8bb8d0;
+      text-shadow: 0 0 8px #0088ff30;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .input-group label i {
+      font-size: 0.7rem;
+      color: #4dc3ff;
+      filter: drop-shadow(0 0 6px #0088ff);
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 200, 255, 0.25);
+      background: rgba(10, 20, 30, 0.7);
+      backdrop-filter: blur(4px);
+      color: #eaf6ff;
+      font-size: 1rem;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.25s ease;
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.6), 0 0 0 0px #00a6ff;
+    }
+
+    .input-group input:focus {
+      border-color: #00e0ff;
+      box-shadow: 0 0 20px #0088ff66, inset 0 2px 8px #00000099;
+      background: rgba(8, 28, 44, 0.8);
+      transform: scale(1.01);
+    }
+
+    .input-group input::placeholder {
+      color: #6d93aa;
+      font-weight: 300;
+      opacity: 0.6;
+    }
+
+    /* Botão futurista com brilho */
+    button {
+      width: 100%;
+      padding: 18px 10px;
+      margin-top: 22px;
+      background: linear-gradient(145deg, #1f3bff, #7a3bff);
+      border: none;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 1.5px;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      cursor: pointer;
+      box-shadow: 0 10px 30px -6px #3a3affaa, 0 0 0 1px #8a8aff66, 0 0 40px #4a7dff55;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    button i {
+      font-size: 1.4rem;
+      filter: drop-shadow(0 0 12px #b0baff);
+    }
+
+    button:hover {
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 20px 40px -6px #3a3affdd, 0 0 0 2px #b0caff, 0 0 70px #4a7dff99;
+      background: linear-gradient(145deg, #2f4bff, #8a4bff);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    /* Painel de resultados – neon vibrante */
+    #painel {
+      margin-top: 28px;
+      padding: 22px 18px;
+      border-radius: 40px;
+      text-align: center;
+      display: none;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #painel::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(0, 255, 255, 0.03), transparent 60%);
+      animation: rotateGlow 12s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes rotateGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #painel.verde {
+      background: rgba(0, 255, 150, 0.12);
+      border-color: #00ffb3cc;
+      box-shadow: 0 0 50px #00ff8833, inset 0 0 40px #00ff8833;
+    }
+
+    #painel.vermelho {
+      background: rgba(255, 40, 80, 0.12);
+      border-color: #ff3b5ccc;
+      box-shadow: 0 0 50px #ff3b5c33, inset 0 0 40px #ff3b5c33;
+    }
+
+    #painel h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-shadow: 0 0 30px currentColor;
+      position: relative;
+      z-index: 2;
+    }
+
+    #painel.verde h3 {
+      color: #aaffbb;
+      text-shadow: 0 0 30px #00ff88, 0 0 60px #00cc66;
+    }
+
+    #painel.vermelho h3 {
+      color: #ffa0b0;
+      text-shadow: 0 0 30px #ff3366, 0 0 60px #ff0044;
+    }
+
+    #painel p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #d0ecff;
+      text-shadow: 0 0 12px #0088ff40;
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px 16px;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-top: 6px;
+    }
+
+    #painel p i {
+      margin-right: 8px;
+      color: #6fcbff;
+    }
+
+    /* Responsivo */
+    @media (max-width: 480px) {
+      .container { padding: 20px 16px; }
+      h2 { font-size: 1.6rem; }
+      .grid { gap: 10px; }
+      .input-group input { padding: 10px 12px; }
+      button { padding: 16px; font-size: 1rem; }
+    }
+
+    /* Brilho extra no ícone */
+    .fa-bolt {
+      color: #f0e34a;
+      filter: drop-shadow(0 0 16px #ffdd44);
+    }
+
+    /* selo bet */
+    .bet-badge {
+      background: linear-gradient(145deg, #ffb347, #ff7b00);
+      padding: 2px 12px 2px 10px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0b0f1a;
+      letter-spacing: 1px;
+      box-shadow: 0 0 20px #ff990066;
+      margin-left: 6px;
+      display: inline-block;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>
+    <i class="fas fa-bolt"></i> Bet <span style="color:#a0d0ff;">Escanteio</span>
+    <span class="bet-badge">PRO</span>
+  </h2>
+
+  <div class="grid">
+    <div class="input-group">
+      <label><i class="fas fa-clock"></i> Minutos</label>
+      <input type="number" id="min" placeholder="33" value="33">
+    </div>
+    <div class="input-group">
+      <label><i class="fas fa-flag"></i> Escanteios</label>
+      <input type="number" id="esc" placeholder="7" value="7">
+    </div>
+    <div class="input-group">
+      <label><i class="fas fa-futbol"></i> Gols Casa</label>
+      <input type="number" id="golsC" placeholder="0" value="0">
+    </div>
+    <div class="input-group">
+      <label><i class="fas fa-futbol"></i> Gols Fora</label>
+      <input type="number" id="golsF" placeholder="0" value="0">
+    </div>
+    <div class="input-group">
+      <label><i class="fas fa-arrow-up"></i> Ataques Casa</label>
+      <input type="number" id="atqC" placeholder="90" value="90">
+    </div>
+    <div class="input-group">
+      <label><i class="fas fa-arrow-down"></i> Ataques Fora</label>
+      <input type="number" id="atqF" placeholder="90" value="90">
+    </div>
+  </div>
+
+  <button onclick="analisar()">
+    <i class="fas fa-satellite-dish"></i> ANALISAR
+  </button>
+
+  <div id="painel">
+    <h3 id="status"></h3>
+    <p id="detalhes"></p>
+  </div>
+</div>
+
+<script>
+  function analisar() {
+    const min = parseInt(document.getElementById('min').value) || 0;
+    const atqC = parseInt(document.getElementById('atqC').value) || 0;
+    const atqF = parseInt(document.getElementById('atqF').value) || 0;
+    const golsC = parseInt(document.getElementById('golsC').value) || 0;
+    const golsF = parseInt(document.getElementById('golsF').value) || 0;
+    const esc = parseInt(document.getElementById('esc').value) || 0;
+
+    const painel = document.getElementById('painel');
+    const statusEl = document.getElementById('status');
+    const detalhesEl = document.getElementById('detalhes');
+
+    // Tempo
+    const tempo = min <= 45 ? "1º Tempo (HT)" : "2º Tempo (FT)";
+
+    // Favorito por ataques
+    let favorito = "Equilibrado";
+    if (atqC > atqF + 8) favorito = "🏠 Time da Casa";
+    else if (atqF > atqC + 8) favorito = "✈️ Visitante";
+    else if (atqC > atqF) favorito = "🏠 Casa (levemente)";
+    else if (atqF > atqC) favorito = "✈️ Visitante (levemente)";
+
+    // Lógica de estimativa melhorada com brilho
+    const ataquesTotais = atqC + atqF;
+    const minutosValidos = min > 0 ? min : 1;
+    const intensidade = ataquesTotais / minutosValidos;
+
+    let tendencia = "Baixa";
+    let escEstimados = "0 a 1";
+    let sinal = "VERMELHO";
+    let cor = "vermelho";
+    let icone = "⛔";
+
+    if (intensidade > 3.2) {
+      tendencia = "Alta";
+      escEstimados = "2 a 4";
+      sinal = "VERDE";
+      cor = "verde";
+      icone = "🟢";
+    } else if (intensidade > 2.0) {
+      tendencia = "Média";
+      escEstimados = "1 a 2";
+      sinal = "AMARELO";
+      cor = "verde"; 
+      icone = "🟡";
+    } else {
+      tendencia = "Baixa";
+      escEstimados = "0 a 1";
+      sinal = "VERMELHO";
+      cor = "vermelho";
+      icone = "🔴";
+    }
+
+    // Ajuste fino: se esc já for alto, reforça
+    if (esc >= 6 && intensidade > 2.5) {
+      escEstimados = "3 a 5";
+    }
+
+    // Construir detalhes com ícones e estilo futurista
+    const detalhes = `
+      <i class="fas fa-clock"></i> ${tempo} &nbsp;|&nbsp; 
+      <i class="fas fa-users"></i> ${favorito} <br>
+      <i class="fas fa-chart-line"></i> Tendência: ${tendencia} 
+      (${intensidade.toFixed(1)} atq/min) <br>
+      <i class="fas fa-crosshairs"></i> Estimativa: +${escEstimados} escanteios
+    `;
+
+    // Exibir painel
+    painel.style.display = "block";
+    painel.className = cor;
+
+    statusEl.innerHTML = `${icone} SINAL ${sinal}`;
+    detalhesEl.innerHTML = detalhes;
+
+    // Brilho extra no painel (efeito pisca)
+    painel.style.transition = "box-shadow 0.2s";
+    setTimeout(() => {
+      painel.style.boxShadow = cor === "verde" 
+        ? "0 0 60px #00ff8855, inset 0 0 40px #00ff8833" 
+        : "0 0 60px #ff3b5c55, inset 0 0 40px #ff3b5c33";
+    }, 50);
+
+    // Feedback tátil no botão 
+    const btn = document.querySelector('button');
+    btn.style.transform = 'scale(0.96)';
+    setTimeout(() => btn.style.transform = '', 120);
+  }
+</script>
+
+</body>
+</html>
